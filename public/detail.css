@@ -1,0 +1,132 @@
+body {
+  text-align: center;
+  width: 1200px;
+  margin: 50px  auto 50px
+}
+
+table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+tr {}
+
+th {
+  padding-bottom: 10px;
+}
+
+td {
+  height: 200px;
+  border: 1px solid dimgray;
+  vertical-align: top;
+  line-height: 50px;
+}
+
+.scheduleDate {
+  text-decoration: none;
+  color: black;
+}
+
+.calDay {
+  background-color: wheat;
+}
+
+.saturday {
+  background-color: crimson;
+}
+
+.sunday {
+  background-color: aqua;
+}
+
+.lastcalDay {
+  background-color: wheat;
+  opacity: 0.5;
+}
+
+.dayPoint {
+  display: inline;
+}
+
+.dayButton {
+  padding: 5px 10px;
+  border-color: azure;
+  margin: 0 10px;
+  border-radius: 10px;
+}
+
+.opacity {
+  opacity: 40%;
+}
+
+.addForm {
+  width: 100%;
+  border: 2px solid darkgray;
+  margin-bottom: 50px;
+}
+
+.addItem {
+  margin: 10px;
+}
+
+.addItemTop {
+  margin-top: 30px;
+}
+
+.Item {
+  padding: 5px 10px;
+  font-size: 100%;
+  border-radius: 5px;
+  font-weight:bold;
+}
+
+.addItemMiddle {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.addItemBottom {
+  margin-bottom: 30px;
+}
+
+p {
+  line-height: 0.3;
+}
+
+.scheduleBody {
+  margin: 20px 0px 30px 0px;
+  background-color: silver;
+  padding: 1px 0;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.memberName {
+  border: 1px solid black;
+  width: 50px;
+  height: 15px;
+  margin: 0 auto 5px;
+  padding-top: 10px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  background-color: black;
+}
+
+.footLinks{
+  margin: 40px 0 0 0; 
+  padding-bottom: 40px;
+  text-align: right;
+  border-bottom: 1px solid silver;
+}
+
+.footLink{
+  text-decoration: none;
+  margin-left: 30px;
+}
+
+.copyright{
+  /* float: right; */
+  text-align: right;
+}

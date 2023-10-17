@@ -1,0 +1,81 @@
+body {
+  width: 600px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+}
+
+th,
+td {
+  border: 1px solid silver;
+}
+
+
+td {
+  text-align: center;
+}
+
+.memberIndex {
+  border-collapse: collapse;
+}
+
+.memberHead {
+  width: 200px;
+  padding: 5px;
+  background-color: blanchedalmond;
+}
+
+input {
+  padding: 5px;
+}
+
+.updateMember {
+  margin-bottom: 100px;
+}
+
+.updateButtonItem {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.updateButton {
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+.addButtonItem {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.addButton {
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+.footLinks{
+  margin: 40px 0 0 0; 
+  padding-bottom: 40px;
+  text-align: right;
+  border-bottom: 1px solid silver;
+}
+
+.footLink{
+  text-decoration: none;
+  margin-left: 30px;
+}
+
+.copyright{
+  /* float: right; */
+  text-align: right;
+}
