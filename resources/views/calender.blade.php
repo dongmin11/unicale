@@ -12,9 +12,9 @@
 </head>
 
 <body>
-  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/laravelapp/public/showCalender">E-CAL</a></h2>
+  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/unical/unicale/public/showCalender">E-CAL</a></h2>
   <div class="addForm">
-    <form action="/laravelapp/public/showCalender?year={{$year}}&month={{$month}}" method="post">
+    <form action="/unical/unicale/public/showCalender?year={{$year}}&month={{$month}}" method="post">
       @csrf
       <div class="addItemTop">
         <div class="addItem" style="display: inline;">
@@ -192,7 +192,7 @@
                                             echo "class='sunday'";
                                           } else {
                                             echo "class='calDay'";
-                                          } ?>><a href="/laravelapp/public/schedule_day?year={{$year}}&month={{$month}}&day={{$thisMonth[$i]}}&countThisMonth={{$countThisMonth}}" class="scheduleDate">{{$thisMonth[$i]}}</a>
+                                          } ?>><a href="/unical/unicale/public/schedule_day?year={{$year}}&month={{$month}}&day={{$thisMonth[$i]}}&countThisMonth={{$countThisMonth}}" class="scheduleDate">{{$thisMonth[$i]}}</a>
           </div>
 
           @if($i<$countLastDay) @foreach($showHolidays as $date=> $holiday)
@@ -409,7 +409,7 @@
       // 選択された開始時刻の値を取得
       var selectedStartTime = startTimeSelect.value;
 
-      if (selectedStartTime === "終日") {
+      if (selectedStartTime == "終日") {
         endTimeSelect.value = "終日";
       }
 
@@ -419,10 +419,13 @@
         if (endTimeOption.value <= selectedStartTime) {
           endTimeOption.disabled = true;
           endTimeOption.style.backgroundColor = "gray";
+          if(selectedStartTime == "終日"){
+            endTimeSelect.options[1].disabled = false;
+            endTimeSelect.options[1].backgroundColor = "white";
+          }
         } else {
           endTimeOption.disabled = false;
           endTimeOption.style.backgroundColor = "white";
-
         }
       }
 

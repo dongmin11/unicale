@@ -15,21 +15,21 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->increments("id");
-            $table->string("memberID");
-            $table->string("memberID2");
-            $table->string("memberID3");
-            $table->string("memberID4");
-            $table->string("memberID5");
-            $table->integer("categoryID");
+            $table->string("memberID")->nullable();
+            $table->string("memberID2")->nullable();
+            $table->string("memberID3")->nullable();
+            $table->string("memberID4")->nullable();
+            $table->string("memberID5")->nullable();
+            $table->integer("categoryID")->nullable();
             $table->integer("year");
             $table->integer("month");
             $table->integer("day");
             $table->string("schedule");
             $table->string("place");
-            $table->string("detail");
+            $table->string("detail")->nullable();
             $table->string("start_time");
             $table->string("end_time");
-            $table->integer("deleteFlg");
+            $table->integer("deleteFlg")->default(0);
             $table->date("updated_at");
             $table->date("created_at");
         });

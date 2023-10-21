@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string("fullName");
             $table->string("memName");
             $table->string("memName_2");
-            $table->string("note");
+            $table->string("note")->nullable();
             $table->integer("appear");
-            $table->integer("deleteFlg");
+            $table->integer("deleteFlg")->default(0);
             $table->date("created_at");
             $table->date("updated_at");
         });

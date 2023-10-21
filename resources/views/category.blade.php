@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/laravelapp/public/showCalender">E-CAL</a></h2>
+  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/unical/unicale/public/showCalender">E-CAL</a></h2>
   <h3 class="title">カテゴリ管理</h3>
   <div class="updateMember">
     <form action="{{route('updateCategory')}}" method="post">
