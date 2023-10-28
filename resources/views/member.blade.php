@@ -33,7 +33,7 @@
 
         <tr>
           <input type="hidden" value="{{$memberInfo->ID}}" name="ID_{{$key}}">
-          <td><select name="appearOrder_{{$key}}">
+          <td><select memberID="{{$memberInfo->ID}}" class="appearOrder" name="appearOrder_{{$key}}">
             <option value="">-</option>
             @foreach($appearOrders as $appearOrder)
             <option value="{{$appearOrder}}" <?php if($memberInfo->appearOrder == $appearOrder){echo "selected";} ?>>{{$appearOrder}}</option>
@@ -43,15 +43,15 @@
           <td><input name="fullName_{{$key}}" type="text" value="{{$memberInfo->fullName}}" style="width:50%;"></td>
           <td><input name="memName_{{$key}}" style="width:50%;" type="text" value="{{$memberInfo->memName}}"></td>
           <td><input name="memName_2_{{$key}}" style="width:50%;" type="text" value="{{$memberInfo->memName_2}}"></td>
-          <td><select style="padding:5px; color:white; background-color:<?php echo $memberInfo->color; ?>;" name="color_{{$key}}">
+          <td><select class="member_colors" style="padding:5px; color:white; background-color:<?php echo $memberInfo->color; ?>;" name="color_{{$key}}">
 
               @foreach($colors as $color)
-              <option style="color:white; background-color: <?php echo $color->color; ?>;" value="{{$color->color}}" <?php if ($color->color == $memberInfo->color) {
+              <option  style="color:white; background-color: <?php echo $color->color; ?>;" value="{{$color->color}}" <?php if ($color->color == $memberInfo->color) {
                                           echo 'selected';
                                           } ?>>{{$color->color}}</option>
               @endforeach
             </select></td>
-          <td><input type="checkbox" name="appear_{{$key}}" 
+          <td><input class="appear" memberID="{{$memberInfo->ID}}" type="checkbox" name="appear_{{$key}}" 
           <?php if($memberInfo->appear == 1){echo 'checked';} ?>></td>
           <td><input name="note_{{$key}}" style="width:90%;" type="text" value="{{$memberInfo->note}}"></td>
         </tr>
@@ -106,15 +106,11 @@
   </div>
 
 <script>
-    // 各<select>要素のchangeイベントを監視
-    var selectElements = document.querySelectorAll('select');
-  
-  selectElements.forEach(function(selectElement) {
-    selectElement.addEventListener('change', function() {
-      var selectedColor = selectElement.value; // 選択された<option>の値を取得
-      selectElement.style.backgroundColor = selectedColor; // 背景色を変更
-    });
-  });
+const memberColors = document.querySelector('.member_colors');
+memberColors.addEventListener('change',function(){
+    const selectOption = memberColors.options[memberColors.selectedIndex];
+    memberColors.style.backgroundColor = selectOption.value;
+});
 
   // <select>要素のIDを取得
   var selectElement = document.getElementById('addColor');
@@ -127,6 +123,107 @@
     // <select>要素の背景色を選択された色に設定
     selectElement.style.backgroundColor = selectedColor;
   });
+
+
+  //表示順の最大選択値を取得
+  const appearOrders = document.querySelectorAll('.appearOrder');
+  const maxAppear = appearOrders.length;//5
+  const appears = document.querySelectorAll('.appear');
+  const appearOrderArray = [];
+
+  appearOrders.forEach(function(appearOrder){
+    appearOrderArray.push(appearOrder.selectedIndex);
+  })
+  maxAppearOrder = Math.max(...appearOrderArray);
+  
+  for(i=0;i<appearOrders.length;i++)
+  {
+    //表示するがfalseの場合は表示順変更不可
+    if(appears[i].checked == false){
+      appearOrders[i].disabled = true;
+    }
+    for(j=1;j<appearOrders[0].length;j++)
+    {
+      if(appearOrders[i].options[j].value >= maxAppearOrder+1)
+      {
+        appearOrders[i].options[j].disabled = true;
+        appearOrders[i].options[j].style.backgroundColor ="gray";
+      }
+    }
+  }
+
+  //「表示順」変更時処理
+  var depAppearOrder = null;
+  var memberOrder = null;
+
+  appearOrders.forEach(function(appearOrder){
+    //変更されたレコードのメンバーIDを取得
+    appearOrder.addEventListener('change',()=>{
+      memberOrder = appearOrder.getAttribute('memberid');
+      for(i=0;i<appearOrders.length;i++)
+      {
+        //選択された表示順とかぶっているレコード検索
+        if(appearOrder.selectedIndex == appearOrders[i].selectedIndex && appearOrders[i].getAttribute('memberid') != memberOrder)
+        {
+          depAppearOrder = appearOrders[i].selectedIndex;
+          updateMemberID = appearOrders[i].getAttribute('memberid');
+          //表示順が重複したメンバーレコードの表示順に+1
+          // updateAppearOrder(updateMemberID);
+        }
+        
+        //かぶってる表示順以降の表示順に+1(未完成)
+        if(depAppearOrder != null && appearOrders[i].selectedIndex > depAppearOrder)
+      {
+        updateMemberID = appearOrders[i].getAttribute('memberid');
+        console.log(updateMemberID);
+        updateAppearOrder(updateMemberID);
+      }
+
+      }
+
+      //表示順が重複したメンバーレコード以降の表示順に+1
+
+
+    })
+  });
+
+  //「表示する」のチェック切り替えの度にmembers.appear更新、appearOrderのdisabled変更
+  appears.forEach(function(appear){
+    appear.addEventListener('change',()=>{
+
+      var memberID = appear.getAttribute("memberid");
+      if(appear.checked == true)
+      {
+        updateMemberAppear(1,memberID);
+        appearOrders[memberID-1].disabled = false;
+      }else{
+        updateMemberAppear(0,memberID);
+        appearOrders[memberID-1].disabled = true;
+      }
+
+      
+      
+    });
+  })
+
+  //members.appear更新
+  function updateMemberAppear(checked,memberID)
+  {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST","updateMemberAppear",true);
+    const requestData = "checked="+checked + "&memberID=" + memberID;
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText); // レスポンスをコンソールに出力
+        } else {
+            console.error("リクエストエラー:" + xhr.status)
+        }
+    }
+    xhr.send(requestData);
+  }
+
+
 </script>
 </body>
 

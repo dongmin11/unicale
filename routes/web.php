@@ -54,3 +54,5 @@ route::get('member',[memberController::class,'member'])->name('member');
 route::post('updateMember',[memberController::class,'updateMember'])->name('updateMember');
 
 route::post('createMember',[memberController::class,'addMember'])->name('addMember');
+
+route::post('updateMemberAppear',[memberController::class,'updateMemberAppear'])->withoutMiddleware(['web']);

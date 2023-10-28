@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\member;
 use App\Models\color;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class memberController extends Controller
 {
@@ -118,5 +119,16 @@ class memberController extends Controller
       }
   
       return $appear;
+    }
+
+    public function updateMemberAppear(Request $request)
+    {
+      $checked = $request->input('checked');
+      $memberID = $request->input('memberID');
+      member::where('id',$memberID)
+      ->update([
+        'appear' => $checked,
+      ]);
+      return response()->json(['message' => 'updated']);
     }
 }
