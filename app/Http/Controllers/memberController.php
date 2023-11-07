@@ -129,6 +129,33 @@ class memberController extends Controller
     //表示チェック判定
     $appear=$this->appearCheck($request->appear);
 
+    if($appear == 1 && $request->appearOrder == null)
+    {
+      $message = '表示する場合には表示順を設定してください';
+      return redirect('/member')->with('addMessage',$message);
+    }
+
+    $members = member::pluck('appearOrder','id');
+
+    $diffID = null;
+    //appearIDの重複があるか確認
+    foreach($members as $memberID => $appearOrder)
+    {
+      if($request->appearOrder == $appearOrder && !$request->appearOrder == null)
+      {
+        $diffID = $memberID;
+      }
+
+      if($diffID != null && $memberID >= $diffID)
+      {
+        $appearOrder = member::where('id',$memberID)->value('appearOrder');
+
+        member::where('id',$memberID)->update([
+          'appearOrder' => $appearOrder
+        ]);
+      }
+    }
+    
 
 
     //メンバーレコード追加
@@ -141,6 +168,8 @@ class memberController extends Controller
       'appear' => $appear,
       'note' => $request->note
     ]);
+
+
 
     return redirect('/member');
   }

@@ -65,6 +65,7 @@
   </form>
 
   <div class="addMember">
+
     <form action="{{route('addMember')}}" method="post">
       @csrf
       <table class="memberIndex">
@@ -77,7 +78,9 @@
           <th class="memberHead" style="width:70px;">表示する</th>
           <th class="memberHead">備考</th>
         </tr>
-
+        @if(session()->has('addMessage'))
+            <p style="font-weight: bold; color:red; text-align:center;">{{session('addMessage')}}</p>
+        @endif
         <tr>
           <td><select id="addAppearOrder" name="appearOrder" style="width: 50%;">
           <option value="">-</option>
@@ -182,10 +185,10 @@ memberColors.addEventListener('change',function(){
       addAppearOrder.disabled = false;
     }
   })
-
+console.log(maxAppearOrder);
   for(i=0;i<addAppearOrder.length;i++)
   {
-    if(addAppearOrder[i].value > maxAppear)
+    if(addAppearOrder[i].value > maxAppearOrder+1)
     {
       addAppearOrder[i].disabled = true;
       addAppearOrder[i].style.backgroundColor = "gray";
