@@ -12,9 +12,9 @@
 </head>
 
 <body>
-  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/unical/unicale/public/showCalender">E-CAL</a></h2>
+  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/unicale/public/showCalender">E-CAL</a></h2>
   <div class="addForm">
-    <form action="/unical/unicale/public/showCalender?year={{$year}}&month={{$month}}" method="post">
+    <form action="/unicale/public/showCalender?year={{$year}}&month={{$month}}" method="post">
       @csrf
       <div class="addItemTop">
         <div class="addItem" style="display: inline;">
@@ -192,7 +192,7 @@
                                             echo "class='sunday'";
                                           } else {
                                             echo "class='calDay'";
-                                          } ?>><a href="/unical/unicale/public/schedule_day?year={{$year}}&month={{$month}}&day={{$thisMonth[$i]}}&countThisMonth={{$countThisMonth}}" class="scheduleDate">{{$thisMonth[$i]}}</a>
+                                          } ?>><a href="/unicale/public/schedule_day?year={{$year}}&month={{$month}}&day={{$thisMonth[$i]}}&countThisMonth={{$countThisMonth}}" class="scheduleDate">{{$thisMonth[$i]}}</a>
           </div>
 
           @if($i<$countLastDay) @foreach($showHolidays as $date=> $holiday)
@@ -375,6 +375,14 @@
       </tr>
     </table>
   </div>
+  <div style="margin-top:30px;">
+    <form method="POST" action="{{route('search')}}">
+      @csrf
+      <input style="width: 350px; height:30px;" type="text" name="searchWord">
+      <input style="width: 50ox; height:35px; font-weight:bold; font-size:larger;" type="submit" value="検索">
+    </form>
+  </div>
+
 
   <script>
     // <select>要素のIDを取得
@@ -419,7 +427,7 @@
         if (endTimeOption.value <= selectedStartTime) {
           endTimeOption.disabled = true;
           endTimeOption.style.backgroundColor = "gray";
-          if(selectedStartTime == "終日"){
+          if (selectedStartTime == "終日") {
             endTimeSelect.options[1].disabled = false;
             endTimeSelect.options[1].backgroundColor = "white";
           }
@@ -446,7 +454,7 @@
       if (selectedStartTime === "午後") {
         for (var i = 0; i < endTimeSelect.options.length; i++) {
           var endTimeOption = endTimeSelect.options[i];
-          if (endTimeOption.value <= "12:00" || endTimeOption.value == "午前" ) {
+          if (endTimeOption.value <= "12:00" || endTimeOption.value == "午前") {
             endTimeOption.disabled = true;
             endTimeOption.style.backgroundColor = "gray";
           } else {
@@ -456,7 +464,7 @@
           }
         }
       }
-      
+
     });
   </script>
 </body>

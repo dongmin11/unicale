@@ -32,6 +32,7 @@ route::get('nextCal',[CalenderController::class,'nextCal'])->name('nextCal');
 
 route::post('showCalender',[CalenderController::class,'addSchedule'])->name('addSchedule');
 
+route::post('showCalender',[CalenderController::class,'search'])->name('search');
 
 route::get('scheduleDetail',[CalenderController::class,'scheduleDetail'])->name('scheduleDetail');
 
