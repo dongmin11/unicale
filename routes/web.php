@@ -56,3 +56,5 @@ route::post('updateMember',[memberController::class,'updateMember'])->name('upda
 route::post('createMember',[memberController::class,'addMember'])->name('addMember');
 
 route::post('updateMemberAppear',[memberController::class,'updateMemberAppear'])->withoutMiddleware(['web']);
+
+route::post('updateAppearOrder',[memberController::class,'updateAppearOrder'])->withoutMiddleware(['web']);

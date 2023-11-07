@@ -51,7 +51,7 @@
                                           } ?>>{{$color->color}}</option>
               @endforeach
             </select></td>
-          <td><input class="appear" memberID="{{$memberInfo->ID}}" type="checkbox" name="appear_{{$key}}" 
+          <td><input class="appear" appearOrder="{{$memberInfo->appearOrder}}" type="checkbox" name="appear_{{$key}}" 
           <?php if($memberInfo->appear == 1){echo 'checked';} ?>></td>
           <td><input name="note_{{$key}}" style="width:90%;" type="text" value="{{$memberInfo->note}}"></td>
         </tr>
@@ -79,7 +79,8 @@
         </tr>
 
         <tr>
-          <td><select name="appearOrder" style="width: 50%;">
+          <td><select id="addAppearOrder" name="appearOrder" style="width: 50%;">
+          <option value="">-</option>
           @foreach($appearOrders as $appearOrder)      
           <option value="{{$appearOrder}}">{{$appearOrder}}</option>
           @endforeach
@@ -95,7 +96,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="checkbox" name="appear" checked></td>
+          <td><input id="addAppearCheck" type="checkbox" name="appear" checked></td>
           <td><input name="note" style="width:90%;" type="text" value=""></td>
         </tr>
       </table>
@@ -135,16 +136,16 @@ memberColors.addEventListener('change',function(){
     appearOrderArray.push(appearOrder.selectedIndex);
   })
   maxAppearOrder = Math.max(...appearOrderArray);
-  
+
   for(i=0;i<appearOrders.length;i++)
   {
     //表示するがfalseの場合は表示順変更不可
     if(appears[i].checked == false){
       appearOrders[i].disabled = true;
     }
-    for(j=1;j<appearOrders[0].length;j++)
+    for(j=0;j<appearOrders[0].length;j++)
     {
-      if(appearOrders[i].options[j].value >= maxAppearOrder+1)
+      if(appearOrders[i].options[j].value > maxAppearOrder+1)
       {
         appearOrders[i].options[j].disabled = true;
         appearOrders[i].options[j].style.backgroundColor ="gray";
@@ -152,76 +153,46 @@ memberColors.addEventListener('change',function(){
     }
   }
 
-  //「表示順」変更時処理
-  var depAppearOrder = null;
-  var memberOrder = null;
-
-  appearOrders.forEach(function(appearOrder){
-    //変更されたレコードのメンバーIDを取得
-    appearOrder.addEventListener('change',()=>{
-      memberOrder = appearOrder.getAttribute('memberid');
-      for(i=0;i<appearOrders.length;i++)
-      {
-        //選択された表示順とかぶっているレコード検索
-        if(appearOrder.selectedIndex == appearOrders[i].selectedIndex && appearOrders[i].getAttribute('memberid') != memberOrder)
-        {
-          depAppearOrder = appearOrders[i].selectedIndex;
-          updateMemberID = appearOrders[i].getAttribute('memberid');
-          //表示順が重複したメンバーレコードの表示順に+1
-          // updateAppearOrder(updateMemberID);
-        }
-        
-        //かぶってる表示順以降の表示順に+1(未完成)
-        if(depAppearOrder != null && appearOrders[i].selectedIndex > depAppearOrder)
-      {
-        updateMemberID = appearOrders[i].getAttribute('memberid');
-        console.log(updateMemberID);
-        updateAppearOrder(updateMemberID);
-      }
-
-      }
-
-      //表示順が重複したメンバーレコード以降の表示順に+1
-
-
-    })
-  });
 
   //「表示する」のチェック切り替えの度にmembers.appear更新、appearOrderのdisabled変更
   appears.forEach(function(appear){
     appear.addEventListener('change',()=>{
 
-      var memberID = appear.getAttribute("memberid");
+      var appearorder = appear.getAttribute('appearorder');
       if(appear.checked == true)
       {
-        updateMemberAppear(1,memberID);
-        appearOrders[memberID-1].disabled = false;
+        appearOrders[appearorder].disabled = false;
       }else{
-        updateMemberAppear(0,memberID);
-        appearOrders[memberID-1].disabled = true;
+        appearOrders[appearorder].disabled = true;
+        appearOrders[appearorder].selectedIndex = 0;
       }
-
-      
-      
     });
+  });
+
+  //追加の表示順処理
+  addAppearOrder = document.getElementById('addAppearOrder');
+  addAppearCheck = document.getElementById('addAppearCheck');
+  
+  addAppearCheck.addEventListener('change',()=>{
+    if(addAppearCheck.checked == false)
+    {
+      addAppearOrder.disabled = true;
+      addAppearOrder.selectedIndex = 0;
+    }else{
+      addAppearOrder.disabled = false;
+    }
   })
 
-  //members.appear更新
-  function updateMemberAppear(checked,memberID)
+  for(i=0;i<addAppearOrder.length;i++)
   {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST","updateMemberAppear",true);
-    const requestData = "checked="+checked + "&memberID=" + memberID;
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText); // レスポンスをコンソールに出力
-        } else {
-            console.error("リクエストエラー:" + xhr.status)
-        }
+    if(addAppearOrder[i].value > maxAppear)
+    {
+      addAppearOrder[i].disabled = true;
+      addAppearOrder[i].style.backgroundColor = "gray";
     }
-    xhr.send(requestData);
   }
+
+
 
 
 </script>

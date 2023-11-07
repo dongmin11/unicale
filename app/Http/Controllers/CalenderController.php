@@ -157,13 +157,15 @@ WHERE
       fullName,
       memName,
       memName_2,
+      appearOrder,
       note,
       colors.color
       FROM members
       LEFT JOIN colors
       ON members.colorID = colors.ID
       WHERE deleteFlg = 0
-      AND appear = 1;
+      AND appear = 1
+      ORDER BY appearOrder ASC;
       "
     );
 
