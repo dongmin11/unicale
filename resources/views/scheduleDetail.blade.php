@@ -13,10 +13,10 @@
 
 <body>
 
-  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/laravelapp/public/showCalender">E-CAL</a></h2>
+  <h2 style="text-align: center; margin: 50px 0 50px 0;"><a style="opacity:60%; text-decoration: none; color:black" href="/unicale/public/showCalender">E-CAL</a></h2>
 
   <div class="addForm">
-    <form action="/laravelapp/public/scheduleDetail?year={{$year}}&month={{$month}}" method="post">
+    <form action="/unicale/public/scheduleDetail?year={{$year}}&month={{$month}}" method="post">
       <input type="hidden" value="{{$_GET['id']}}" name="id">
       @csrf
       <div class="addItemTop">

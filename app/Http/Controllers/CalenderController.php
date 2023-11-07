@@ -461,6 +461,11 @@ WHERE
     return view('schedule_day', compact('memberInfos', 'formattedTimes', 'categories','year','month'));
   }
 
+  public function search(Request $request)
+  {
+    return view("search");
+  }
+
 
 
 
